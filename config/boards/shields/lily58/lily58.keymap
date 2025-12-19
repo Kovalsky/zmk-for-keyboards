@@ -36,7 +36,8 @@
 &kp TAB   &kp Q  &kp W  &kp E    &kp R      &kp T                      &kp Y  &kp U    &kp I     &kp O   &kp P    &kp MINUS
 &kp LCTRL &kp A  &kp S  &kp D    &kp F      &kp G                      &kp H  &kp J    &kp K     &kp L   &kp SEMI &kp SQT
 &kp LSHFT &kp Z  &kp X  &kp C    &kp V      &kp B                      &kp N  &kp M    &kp COMMA &kp DOT &kp FSLH &kp RSHFT
-                        &kp LALT &kp SPACE  &mo 1                      &mo 2  &kp BSPC &kp RET
+                        &kp LALT &kp SPACE  &mo 1  &none        &none  &mo 2  &kp BSPC &kp RET 
+
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
@@ -71,7 +72,7 @@
 &ext_power EP_TOG &rgb_ug RGB_HUD &rgb_ug RGB_HUI &rgb_ug RGB_SAD &rgb_ug RGB_SAI &rgb_ug RGB_EFF                         &trans &trans &trans &trans &trans &trans
 &trans             &rgb_ug RGB_BRD &rgb_ug RGB_BRI &trans           &trans           &trans                                   &trans &trans &trans &trans &trans &trans
 &trans             &trans           &trans           &trans           &trans           &trans            &trans &trans  &trans &trans &trans &trans &trans &trans
-                                  &kp LGUI           &kp RGUI           &trans           &trans            &trans           &trans  &trans &trans &trans &trans
+                                    &trans           &kp LGUI         &kp RGUI           &trans           &trans            &trans           &trans  &trans 
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
