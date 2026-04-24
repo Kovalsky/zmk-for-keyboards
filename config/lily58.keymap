@@ -51,6 +51,13 @@
             bindings = <&kp RBKT>;
             layers = <0>;
         };
+
+        combo_under {
+            timeout-ms = <40>;
+            key-positions = <44 45>;   // N + M → _ (snake_case in Ruby, frequent)
+            bindings = <&kp UNDER>;
+            layers = <0>;
+        };
     };
 
     keymap {
