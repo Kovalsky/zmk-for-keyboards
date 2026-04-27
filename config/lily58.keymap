@@ -65,24 +65,24 @@
 
         default_layer {
 // ------------------------------------------------------------------------------------------------------------
-// |  ESC  |  1  |  2  |  3   |  4   |  5   |                   |  6   |  7    |  8    |  9   |   0   |   `   |
+// |  ESC  |  1  |  2  |  3   |  4   |  5   |                   |  6   |  7    |  8    |  9   |   0   | BSPC  |
 // |  TAB  |  Q  |  W  |  E   |  R   |  T   |                   |  Y   |  U    |  I    |  O   |   P   |   -   |
 // |CTL/ESC|  A  |  S  |  D   |  F   |  G   |                   |  H   |  J    |  K    |  L   |   ;   | ENTER |
 // | LSHFT |  Z  |  X  |  C   |  V   |  B   |  (—)  |   |  (—)  |  N   |  M    |  ,    |  .   |   /   | RSHFT |
-//                            | LGUI | SPACE| LOWER|  (—)  |   |  (—)  | RAISE| BSPC  | TAB  |
+//                            | LGUI | SPACE| LOWER|  (—)  |   |  (—)  | RAISE| SPACE | TAB  |
 // Slot 24 is mod-tap: tap → ESC, hold → LCTRL. Corner ESC (slot 0) kept as backup.
-// Top-right (slot 11) is GRAVE.
-// Right thumb: RAISE (inner) | BSPC (middle) | TAB (outer). Right SPACE removed —
-// only the left thumb presses space in practice, so that slot became TAB for
-// terminal/autocomplete/indent. BSPC moved inward (strongest thumb position).
+// Top-right (slot 11) is BSPC — moved here from right thumb middle for pinky
+// access; right thumb middle now SPACE so both thumbs can hit space. GRAVE
+// available on LOWER/RAISE.
+// Right thumb: RAISE (inner) | SPACE (middle) | TAB (outer).
 // Base-layer `[` via Z+X combo, `]` via . + / combo (see combos block).
 // `'` (SQT) moved off base layer — now on RAISE at the `;` position (slot 34).
             bindings = <
-&kp ESC       &kp N1 &kp N2 &kp N3   &kp N4    &kp N5                        &kp N6    &kp N7   &kp N8    &kp N9  &kp N0   &kp GRAVE
-&kp TAB       &kp Q  &kp W  &kp E    &kp R     &kp T                         &kp Y     &kp U    &kp I     &kp O   &kp P    &kp MINUS
-&mt LCTRL ESC &kp A  &kp S  &kp D    &kp F     &kp G                         &kp H     &kp J    &kp K     &kp L   &kp SEMI &kp RET
-&kp LSHFT     &kp Z  &kp X  &kp C    &kp V     &kp B     &none     &none     &kp N     &kp M    &kp COMMA &kp DOT &kp FSLH &kp RSHFT
-                            &kp LGUI &kp SPACE &mo 1     &none     &none     &mo 2     &kp BSPC  &kp TAB
+&kp ESC       &kp N1 &kp N2 &kp N3   &kp N4    &kp N5                        &kp N6    &kp N7    &kp N8    &kp N9  &kp N0   &kp BSPC
+&kp TAB       &kp Q  &kp W  &kp E    &kp R     &kp T                         &kp Y     &kp U     &kp I     &kp O   &kp P    &kp MINUS
+&mt LCTRL ESC &kp A  &kp S  &kp D    &kp F     &kp G                         &kp H     &kp J     &kp K     &kp L   &kp SEMI &kp RET
+&kp LSHFT     &kp Z  &kp X  &kp C    &kp V     &kp B     &none     &none     &kp N     &kp M     &kp COMMA &kp DOT &kp FSLH &kp RSHFT
+                            &kp LGUI &kp SPACE &mo 1     &none     &none     &mo 2     &kp SPACE &kp TAB
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
