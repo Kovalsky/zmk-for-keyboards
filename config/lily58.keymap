@@ -58,6 +58,13 @@
             bindings = <&kp UNDER>;
             layers = <0>;
         };
+
+        combo_sqt {
+            timeout-ms = <40>;
+            key-positions = <39 40>;   // C + V → ' (UA: є, RU: э)
+            bindings = <&kp SQT>;
+            layers = <0>;
+        };
     };
 
     keymap {
