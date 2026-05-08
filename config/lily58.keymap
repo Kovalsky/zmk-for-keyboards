@@ -65,6 +65,25 @@
             bindings = <&kp SQT>;
             layers = <0>;
         };
+
+        // Language switch chords. Stay in home position: pinky shift +
+        // same-side thumb layer key. Forward = Ctrl+Space, backward =
+        // Ctrl+Shift+Space — match the GNOME defaults already in
+        // gsettings (`switch-input-source` / `-backward`), so no system
+        // config change is needed.
+        combo_lang_switch {
+            timeout-ms = <40>;
+            key-positions = <36 52>;   // LSHFT + LOWER thumb
+            bindings = <&kp LC(SPACE)>;
+            layers = <0>;
+        };
+
+        combo_lang_switch_back {
+            timeout-ms = <40>;
+            key-positions = <49 55>;   // RSHFT + RAISE thumb
+            bindings = <&kp LC(LS(SPACE))>;
+            layers = <0>;
+        };
     };
 
     keymap {
