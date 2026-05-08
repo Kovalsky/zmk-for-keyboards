@@ -126,6 +126,24 @@
             layers = <0>;
         };
 
+        // Quick-cycle combos. Catch the simultaneous chord (within 50 ms)
+        // regardless of micro-ordering between the shift pinky and the
+        // thumb — the hold-tap path can miss this when the shift fires a
+        // microsecond earlier than the thumb. Slower "hold thumb, tap
+        // shift" still goes through the hold-tap (HUD walk).
+        combo_lang_fw_quick {
+            timeout-ms = <50>;
+            key-positions = <36 52>;   // LSHFT + LOWER thumb
+            bindings = <&kp LC(SPACE)>;
+            layers = <0 1>;
+        };
+
+        combo_lang_bw_quick {
+            timeout-ms = <50>;
+            key-positions = <49 55>;   // RSHFT + RAISE thumb
+            bindings = <&kp LC(LS(SPACE))>;
+            layers = <0 2>;
+        };
     };
 
     keymap {
