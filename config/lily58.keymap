@@ -76,7 +76,7 @@
         ht_lower: ht_lower {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
-            flavor = "tap-preferred";
+            flavor = "hold-preferred";
             tapping-term-ms = <200>;
             bindings = <&lang_fw>, <&mo>;
             hold-trigger-key-positions = <36>;   // LSHFT only
@@ -85,7 +85,7 @@
         ht_raise: ht_raise {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
-            flavor = "tap-preferred";
+            flavor = "hold-preferred";
             tapping-term-ms = <200>;
             bindings = <&lang_bw>, <&mo>;
             hold-trigger-key-positions = <49>;   // RSHFT only
