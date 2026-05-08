@@ -32,6 +32,22 @@
         };
     };
 
+    // Hold-LCTRL macro for the language-switch chord. Press → LCTRL down,
+    // pause until the chord releases → LCTRL up. Combined with combo's
+    // `slow-release`, this keeps Ctrl physically held to the OS while the
+    // chord is held, so GNOME's input-source HUD stays open and we can
+    // tap Space (right thumb) to walk through the menu.
+    macros {
+        ctrl_hold: ctrl_hold {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_pause_for_release>
+                , <&macro_release &kp LCTRL>;
+        };
+    };
+
     // Base-layer `[` / `]` via chords, since the inner-column switches are
     // absent on this build. In Ukrainian/Russian layouts these same keycodes
     // produce `х` / `ї`/`ъ`. Scoped to layer 0 so LOWER/RAISE are unaffected.
@@ -66,28 +82,18 @@
             layers = <0>;
         };
 
-        // Language switch chords. Stay in home position: pinky shift +
-        // same-side thumb layer key. Forward = Ctrl+Space, backward =
-        // Ctrl+Shift+Space — match the GNOME defaults already in
-        // gsettings (`switch-input-source` / `-backward`), so no system
-        // config change is needed.
-        // Wider timeout (80 ms vs the 40 ms of letter combos) because
-        // pinky + thumb on different fingers is slower to land than two
-        // adjacent fingers. `layers = <0 1>` / `<0 2>` so the combo is
-        // still caught if the thumb-layer key registers first and momentarily
-        // shifts the active layer.
-        combo_lang_switch {
+        // Language-switch HUD trigger. Holds physical LCTRL while the
+        // chord is held (slow-release). Tap SPACE (right thumb) to
+        // advance forward through the GNOME input-source HUD; add RSHFT
+        // (right pinky) to walk backward. Release the chord to commit.
+        // Active on layers 0 and 1 so the chord still catches if LOWER
+        // momentarily flipped to layer 1 before LSHFT landed.
+        combo_lang_menu {
             timeout-ms = <80>;
             key-positions = <36 52>;   // LSHFT + LOWER thumb
-            bindings = <&kp LC(SPACE)>;
+            bindings = <&ctrl_hold>;
             layers = <0 1>;
-        };
-
-        combo_lang_switch_back {
-            timeout-ms = <80>;
-            key-positions = <49 55>;   // RSHFT + RAISE thumb
-            bindings = <&kp LC(LS(SPACE))>;
-            layers = <0 2>;
+            slow-release;
         };
     };
 
