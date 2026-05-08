@@ -71,18 +71,23 @@
         // Ctrl+Shift+Space — match the GNOME defaults already in
         // gsettings (`switch-input-source` / `-backward`), so no system
         // config change is needed.
+        // Wider timeout (80 ms vs the 40 ms of letter combos) because
+        // pinky + thumb on different fingers is slower to land than two
+        // adjacent fingers. `layers = <0 1>` / `<0 2>` so the combo is
+        // still caught if the thumb-layer key registers first and momentarily
+        // shifts the active layer.
         combo_lang_switch {
-            timeout-ms = <40>;
+            timeout-ms = <80>;
             key-positions = <36 52>;   // LSHFT + LOWER thumb
             bindings = <&kp LC(SPACE)>;
-            layers = <0>;
+            layers = <0 1>;
         };
 
         combo_lang_switch_back {
-            timeout-ms = <40>;
+            timeout-ms = <80>;
             key-positions = <49 55>;   // RSHFT + RAISE thumb
             bindings = <&kp LC(LS(SPACE))>;
-            layers = <0>;
+            layers = <0 2>;
         };
     };
 
