@@ -66,26 +66,24 @@
             layers = <0>;
         };
 
-        // Lang-switch chords. Left chord (LSHFT + LOWER thumb) walks one
-        // step back, right chord (RSHFT + RAISE thumb) walks one step
-        // forward — natural left=back / right=forward mapping. Quick tap
-        // = one step; holding the chord keeps Ctrl(+Shift)+Space pressed
-        // past GNOME's 150 ms threshold so the HUD opens and OS key-repeat
-        // walks the list.
+        // Lang-switch chords. Each chord emits a unique Super+F-key that
+        // GNOME's custom-keybindings route to lily-lang-{forward,back}.sh.
+        // Those scripts call the input-source-dbus-interface extension to
+        // advance one step through the list (us → ru → ua → us), avoiding
+        // the MRU toggle and HUD entirely. Single-tap = single step; no
+        // hold semantics, no slow-release.
         combo_lang_back {
             timeout-ms = <50>;
-            key-positions = <36 52>;   // LSHFT + LOWER thumb (left side)
-            bindings = <&kp LC(LS(SPACE))>;
+            key-positions = <36 52>;   // LSHFT + LOWER thumb (left = back)
+            bindings = <&kp LG(F23)>;
             layers = <0 1>;
-            slow-release;
         };
 
         combo_lang_fwd {
             timeout-ms = <50>;
-            key-positions = <49 55>;   // RSHFT + RAISE thumb (right side)
-            bindings = <&kp LC(SPACE)>;
+            key-positions = <49 55>;   // RSHFT + RAISE thumb (right = forward)
+            bindings = <&kp LG(F22)>;
             layers = <0 2>;
-            slow-release;
         };
     };
 
