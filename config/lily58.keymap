@@ -32,66 +32,6 @@
         };
     };
 
-    // Lang-switch macros. Triggered as the hold action of the LOWER/RAISE
-    // hold-tap when the corresponding shift pinky is pressed. Press LCTRL
-    // (and LSHFT for backward), activate lang_layer (layer 4), pause until
-    // the thumb is released. While paused, the shift-pinky press is
-    // re-evaluated on lang_layer where its slot emits plain SPACE — so the
-    // first shift press already lands as Ctrl(+Shift)+Space (HUD opens),
-    // and every subsequent shift tap walks the HUD. Release the thumb to
-    // commit.
-    macros {
-        lang_fw: lang_fw {
-            compatible = "zmk,behavior-macro-one-param";
-            #binding-cells = <1>;
-            bindings
-                = <&macro_press &kp LCTRL>
-                , <&macro_press &mo 4>
-                , <&macro_pause_for_release>
-                , <&macro_release &mo 4>
-                , <&macro_release &kp LCTRL>;
-        };
-
-        lang_bw: lang_bw {
-            compatible = "zmk,behavior-macro-one-param";
-            #binding-cells = <1>;
-            bindings
-                = <&macro_press &kp LCTRL>
-                , <&macro_press &kp LSHFT>
-                , <&macro_press &mo 4>
-                , <&macro_pause_for_release>
-                , <&macro_release &mo 4>
-                , <&macro_release &kp LSHFT>
-                , <&macro_release &kp LCTRL>;
-        };
-    };
-
-    // Hold-tap on the LOWER/RAISE thumbs. Tap = regular layer (mo 1 / mo 2)
-    // for F-keys, numbers, etc. Hold = lang macro, but ONLY if the trigger
-    // key is the matching shift pinky (hold-trigger-key-positions). This
-    // way ordinary layer use (LOWER+1 = F-key) is never delayed or
-    // interpreted as lang-switch — the F-key positions are not in the
-    // trigger list, so tap fires immediately.
-    behaviors {
-        ht_lower: ht_lower {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "hold-preferred";
-            tapping-term-ms = <200>;
-            bindings = <&lang_fw>, <&mo>;
-            hold-trigger-key-positions = <36>;   // LSHFT only
-        };
-
-        ht_raise: ht_raise {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "hold-preferred";
-            tapping-term-ms = <200>;
-            bindings = <&lang_bw>, <&mo>;
-            hold-trigger-key-positions = <49>;   // RSHFT only
-        };
-    };
-
     // Base-layer `[` / `]` via chords, since the inner-column switches are
     // absent on this build. In Ukrainian/Russian layouts these same keycodes
     // produce `х` / `ї`/`ъ`. Scoped to layer 0 so LOWER/RAISE are unaffected.
@@ -126,23 +66,24 @@
             layers = <0>;
         };
 
-        // Quick-cycle combos. Catch the simultaneous chord (within 50 ms)
-        // regardless of micro-ordering between the shift pinky and the
-        // thumb — the hold-tap path can miss this when the shift fires a
-        // microsecond earlier than the thumb. Slower "hold thumb, tap
-        // shift" still goes through the hold-tap (HUD walk).
-        combo_lang_fw_quick {
+        // Lang-switch chords. Quick tap of the chord cycles MRU (us↔ru).
+        // Holding the chord keeps LCTRL+SPACE physically held (slow-release)
+        // so GNOME's HUD opens past the 150 ms threshold and OS key-repeat
+        // walks the list while held.
+        combo_lang_fw {
             timeout-ms = <50>;
             key-positions = <36 52>;   // LSHFT + LOWER thumb
             bindings = <&kp LC(SPACE)>;
             layers = <0 1>;
+            slow-release;
         };
 
-        combo_lang_bw_quick {
+        combo_lang_bw {
             timeout-ms = <50>;
             key-positions = <49 55>;   // RSHFT + RAISE thumb
             bindings = <&kp LC(LS(SPACE))>;
             layers = <0 2>;
+            slow-release;
         };
     };
 
@@ -168,7 +109,7 @@
 &kp TAB       &kp Q  &kp W  &kp E    &kp R     &kp T                         &kp Y     &kp U     &kp I     &kp O   &kp P    &kp MINUS
 &mt LCTRL ESC &kp A  &kp S  &kp D    &kp F     &kp G                         &kp H     &kp J     &kp K     &kp L   &kp SEMI &kp RET
 &kp LSHFT     &kp Z  &kp X  &kp C    &kp V     &kp B     &none     &none     &kp N     &kp M     &kp COMMA &kp DOT &kp FSLH &kp RSHFT
-                            &kp LGUI &kp SPACE &ht_lower 0 1 &none &none &ht_raise 0 2 &kp SPACE &kp BSPC
+                            &kp LGUI &kp SPACE &mo 1     &none     &none     &mo 2     &kp SPACE &kp BSPC
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
@@ -226,19 +167,6 @@
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
-        };
-
-        // Layer 4 — auto-activated by lang_fw / lang_bw macros while the
-        // chord is held. Only the shift slots are remapped to SPACE so each
-        // pinky tap walks the GNOME input-source HUD.
-        lang_layer {
-            bindings = <
-&trans  &trans &trans &trans &trans &trans                  &trans &trans &trans &trans &trans &trans
-&trans  &trans &trans &trans &trans &trans                  &trans &trans &trans &trans &trans &trans
-&trans  &trans &trans &trans &trans &trans                  &trans &trans &trans &trans &trans &trans
-&kp SPACE &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans &kp SPACE
-                       &trans &trans &trans &none   &none   &trans &trans &trans
-            >;
         };
     };
 };
