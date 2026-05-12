@@ -75,14 +75,14 @@
         combo_lang_back {
             timeout-ms = <50>;
             key-positions = <36 52>;   // LSHFT + LOWER thumb (left = back)
-            bindings = <&kp LG(F23)>;
+            bindings = <&kp LG(LS(F11))>;
             layers = <0 1>;
         };
 
         combo_lang_fwd {
             timeout-ms = <50>;
             key-positions = <49 55>;   // RSHFT + RAISE thumb (right = forward)
-            bindings = <&kp LG(F22)>;
+            bindings = <&kp LG(LS(F12))>;
             layers = <0 2>;
         };
     };
