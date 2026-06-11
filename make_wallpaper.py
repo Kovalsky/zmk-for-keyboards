@@ -97,17 +97,17 @@ BASE_EN = [
     # row 1
     ("TAB", "normal"), ("Q", "normal"), ("W", "normal"), ("E", "normal"), ("R", "normal"), ("T", "normal"),
     ("Y", "normal"), ("U", "normal"), ("I", "normal"), ("O", "normal"), ("P", "normal"), ("-", "normal"),
-    # row 2
-    ("CTL\nESC", "mod"), ("A", "normal"), ("S", "normal"), ("D", "normal"), ("F", "normal"), ("G", "normal"),
-    ("H", "normal"), ("J", "normal"), ("K", "normal"), ("L", "normal"), (";", "normal"), ("ENTER", "normal"),
+    # row 2 — home-row mods: tap = letter, hold = amber modifier
+    ("CTL\nESC", "mod"), ("A\n⌘", "hrm"), ("S\n⌥", "hrm"), ("D\n⌃", "hrm"), ("F\n⇧", "hrm"), ("G", "normal"),
+    ("H", "normal"), ("J\n⇧", "hrm"), ("K\n⌃", "hrm"), ("L\n⌥", "hrm"), (";\n⌘", "hrm"), ("ENTER", "normal"),
     # row 3 (14 slots, &none at 42, 43)
     ("LSHFT", "mod"), ("Z", "combo"), ("X", "combo"), ("C", "combo"), ("V", "combo"), ("B", "normal"),
     N, N,
     ("N", "combo"), ("M", "combo"), (",", "normal"), (".", "combo"), ("/", "combo"), ("RSHFT", "mod"),
-    # thumbs (8 slots, &none at 53, 54)
+    # thumbs (8 slots, &none at 53, 54) — Miryoku-style right side
     ("LGUI", "thumb"), ("SPACE", "thumb"), ("LOWER", "thumb"),
     N, N,
-    ("RAISE", "thumb"), ("SPACE", "thumb"), ("BSPC", "thumb"),
+    ("RAISE", "thumb"), ("BSPC", "thumb"), ("ENTER", "thumb"),
 ]
 
 # Ukrainian system overlay (OS-level layout). Same firmware base layer — just
@@ -120,9 +120,9 @@ BASE_UA = [
     # row 1: Q W E R T Y U I O P → Й Ц У К Е Н Г Ш Щ З
     ("TAB", "normal"), ("Й", "normal"), ("Ц", "normal"), ("У", "normal"), ("К", "normal"), ("Е", "normal"),
     ("Н", "normal"), ("Г", "normal"), ("Ш", "normal"), ("Щ", "normal"), ("З", "normal"), ("-", "normal"),
-    # row 2: A S D F G H J K L ; → Ф І В А П Р О Л Д Ж
-    ("CTL\nESC", "mod"), ("Ф", "normal"), ("І", "normal"), ("В", "normal"), ("А", "normal"), ("П", "normal"),
-    ("Р", "normal"), ("О", "normal"), ("Л", "normal"), ("Д", "normal"), ("Ж", "normal"), ("ENTER", "normal"),
+    # row 2: A S D F G H J K L ; → Ф І В А П Р О Л Д Ж — same HRM holds
+    ("CTL\nESC", "mod"), ("Ф\n⌘", "hrm"), ("І\n⌥", "hrm"), ("В\n⌃", "hrm"), ("А\n⇧", "hrm"), ("П", "normal"),
+    ("Р", "normal"), ("О\n⇧", "hrm"), ("Л\n⌃", "hrm"), ("Д\n⌥", "hrm"), ("Ж\n⌘", "hrm"), ("ENTER", "normal"),
     # row 3: Z X C V B → Я Ч С М И ; N M , . / → Т Ь Б Ю .
     ("LSHFT", "mod"), ("Я", "combo"), ("Ч", "combo"), ("С", "combo"), ("М", "combo"), ("И", "normal"),
     N, N,
@@ -130,7 +130,7 @@ BASE_UA = [
     # thumbs: same firmware bindings, no language transform
     ("LGUI", "thumb"), ("SPACE", "thumb"), ("LOWER", "thumb"),
     N, N,
-    ("RAISE", "thumb"), ("SPACE", "thumb"), ("BSPC", "thumb"),
+    ("RAISE", "thumb"), ("BSPC", "thumb"), ("ENTER", "thumb"),
 ]
 
 LOWER = [
@@ -203,6 +203,18 @@ def draw_key(d, x, y, w, h, label, kind, secondary=False):
     d.rounded_rectangle([x, y, x + w, y + h], radius=7, fill=bg, outline=border, width=1)
 
     if not label:
+        return
+
+    if kind == "hrm":
+        # Home-row mod: tap-identity (letter) in ink, hold-identity
+        # (modifier glyph) in amber below it.
+        letter, mod = label.split("\n")
+        lf = F(MONO_BOLD, 18)
+        mf = F(MONO_BOLD, 13)
+        tw = d.textlength(letter, font=lf)
+        d.text((x + (w - tw) / 2, y + 5), letter, font=lf, fill=INK)
+        tw = d.textlength(mod, font=mf)
+        d.text((x + (w - tw) / 2, y + h - 20), mod, font=mf, fill=AMBER)
         return
 
     lines = label.split("\n")
@@ -362,7 +374,7 @@ def draw_header(canvas):
     items = [
         ("BUILD",   "zmk-for-lily"),
         ("LAYOUT",  "lily58 · split"),
-        ("VERSION", "v01 · 2026"),
+        ("VERSION", "v02 · 2026"),
     ]
     block_top = 64
     line_h = 28
@@ -511,6 +523,10 @@ def draw_footer(canvas, footer_top, openrouter_usage=None):
         d.rounded_rectangle([col5_x, sy, col5_x + sw, sy + sw], radius=3,
                             fill=bg, outline=border, width=1)
         d.text((col5_x + sw + 6, sy - 1), name, font=label_font, fill=INK_DIM)
+    # Hold-glyph entry — amber glyph instead of a colour swatch.
+    hy = body_y + len(swatches) * 17
+    d.text((col5_x, hy - 2), "⌘", font=F(MONO_BOLD, 12), fill=AMBER)
+    d.text((col5_x + sw + 6, hy - 1), "hold = mod", font=label_font, fill=INK_DIM)
 
 
 def draw_signature(canvas):
