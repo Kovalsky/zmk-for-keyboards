@@ -65,8 +65,8 @@ BASE = [
     ("TAB", "normal"), ("Q", "normal"), ("W", "normal"), ("E", "normal"), ("R", "normal"), ("T", "normal"),
     ("Y", "normal"), ("U", "normal"), ("I", "normal"), ("O", "normal"), ("P", "normal"), ("-", "normal"),
 
-    ("CTL\nESC", "mod"), ("A\n⌘", "hrm"), ("S\n⌥", "hrm"), ("D\n⌃", "hrm"), ("F\n⇧", "hrm"), ("G", "normal"),
-    ("H", "normal"), ("J\n⇧", "hrm"), ("K\n⌃", "hrm"), ("L\n⌥", "hrm"), (";\n⌘", "hrm"), ("ENTER", "normal"),
+    ("CTL\nESC", "mod"), ("A\nSUPER", "hrm"), ("S\nALT", "hrm"), ("D\nCTRL", "hrm"), ("F\nSHIFT", "hrm"), ("G", "normal"),
+    ("H", "normal"), ("J\nSHIFT", "hrm"), ("K\nCTRL", "hrm"), ("L\nALT", "hrm"), (";\nSUPER", "hrm"), ("ENTER", "normal"),
 
     ("LSHFT", "mod"), ("Z", "combo"), ("X", "combo"), ("C", "combo"), ("V", "combo"), ("B", "normal"),
     N, N,
@@ -112,7 +112,7 @@ ADJUST = [
 ]
 
 LAYERS_DATA = [
-    ("Layer 0", "BASE",   "combos: Z+X→[  C+V→'  .+/→]  N+M→_  ·  lang: LSHFT+LOWER ←  RSHFT+RAISE →  ·  amber glyph = hold for mod (opposite hand)", BASE),
+    ("Layer 0", "BASE",   "combos: Z+X→[  C+V→'  .+/→]  N+M→_  ·  lang: LSHFT+LOWER ←  RSHFT+RAISE →  ·  amber word = hold for mod (opposite hand)", BASE),
     ("Layer 1", "LOWER",  "hold left thumb (LOWER)",                                LOWER),
     ("Layer 2", "RAISE",  "hold right thumb (RAISE)",                               RAISE),
     ("Layer 3", "ADJUST", "hold LOWER + RAISE together",                            ADJUST),
@@ -143,14 +143,14 @@ def draw_key(d, x, y, w, h, label, kind):
 
     if kind == "hrm":
         # Home-row mod: tap-identity (letter) in ink on top, hold-identity
-        # (modifier glyph) in amber below.
+        # (modifier word) in amber below.
         letter, mod = label.split("\n")
-        lf = F(MONO_BOLD, 16)
-        mf = F(MONO_BOLD, 12)
+        lf = F(MONO_BOLD, 15)
+        mf = F(MONO_BOLD, 9)
         tw = d.textlength(letter, font=lf)
         d.text((x + (w - tw) / 2, y + 4), letter, font=lf, fill=INK)
         tw = d.textlength(mod, font=mf)
-        d.text((x + (w - tw) / 2, y + h - 18), mod, font=mf, fill=AMBER)
+        d.text((x + (w - tw) / 2, y + h - 14), mod, font=mf, fill=AMBER)
         return
 
     lines = label.split("\n")
@@ -277,7 +277,7 @@ def draw_kitty_footer(canvas, footer_top):
     tail_font = F(MONO, 11)
 
     d.text((PAD_X, footer_top - 16),
-           "KITTY  ·  ⌘ = LGUI on the lily58",
+           "KITTY  ·  Super = left thumb (LGUI)",
            font=h_font, fill=AMBER_DIM)
 
     section_line_y = footer_top - 2
@@ -302,26 +302,26 @@ def draw_kitty_footer(canvas, footer_top):
             d.text((x + key_col_w, ly + 1), desc, font=desc_font, fill=MUTED)
 
     column(col1_x, "WINDOWS", [
-        ("⌘ ↩",         "new window (cwd)"),
-        ("⌘ Q",         "close window"),
-        ("⌘ L",         "next layout"),
-        ("⌘ ⇧ ←→↑↓",   "focus neighbour"),
-        ("⌘ R",         "resize mode (arrows, Esc ends)"),
+        ("Super Enter",        "new window (cwd)"),
+        ("Super Q",            "close window"),
+        ("Super L",            "next layout"),
+        ("Super Shift ←→↑↓",   "focus neighbour"),
+        ("Super R",            "resize mode (arrows, Esc ends)"),
     ])
 
     column(col2_x, "TABS", [
-        ("⌘ T",         "new tab (cwd)"),
-        ("⌘ ⇧ Q",       "close tab"),
-        ("⌘ ← / →",     "prev / next tab"),
-        ("⌘ ⇧ , / .",   "move tab back / fwd"),
-        ("⌘ 1 – 9",     "jump to tab N"),
+        ("Super T",            "new tab (cwd)"),
+        ("Super Shift Q",      "close tab"),
+        ("Super ← / →",        "prev / next tab"),
+        ("Super Shift , / .",  "move tab back / fwd"),
+        ("Super 1 – 9",        "jump to tab N"),
     ])
 
     column(col3_x, "CLIPBOARD  ·  HINTS", [
-        ("⌘ C / V",     "copy / paste"),
-        ("⌃ ⇧ C / V",   "copy / paste (alt)"),
-        ("⌘ E",         "open URL with hints"),
-        ("UA dupes",    "⌘с ⌘м ⌘й ⌘е ⌘д ⌘у ⌘к all work"),
+        ("Super C / V",        "copy / paste"),
+        ("Ctrl Shift C / V",   "copy / paste (alt)"),
+        ("Super E",            "open URL with hints"),
+        ("UA dupes",           "Super + с м й е д у к all work"),
     ])
 
 

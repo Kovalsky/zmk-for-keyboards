@@ -98,8 +98,8 @@ BASE_EN = [
     ("TAB", "normal"), ("Q", "normal"), ("W", "normal"), ("E", "normal"), ("R", "normal"), ("T", "normal"),
     ("Y", "normal"), ("U", "normal"), ("I", "normal"), ("O", "normal"), ("P", "normal"), ("-", "normal"),
     # row 2 — home-row mods: tap = letter, hold = amber modifier
-    ("CTL\nESC", "mod"), ("A\n⌘", "hrm"), ("S\n⌥", "hrm"), ("D\n⌃", "hrm"), ("F\n⇧", "hrm"), ("G", "normal"),
-    ("H", "normal"), ("J\n⇧", "hrm"), ("K\n⌃", "hrm"), ("L\n⌥", "hrm"), (";\n⌘", "hrm"), ("ENTER", "normal"),
+    ("CTL\nESC", "mod"), ("A\nSUPER", "hrm"), ("S\nALT", "hrm"), ("D\nCTRL", "hrm"), ("F\nSHIFT", "hrm"), ("G", "normal"),
+    ("H", "normal"), ("J\nSHIFT", "hrm"), ("K\nCTRL", "hrm"), ("L\nALT", "hrm"), (";\nSUPER", "hrm"), ("ENTER", "normal"),
     # row 3 (14 slots, &none at 42, 43)
     ("LSHFT", "mod"), ("Z", "combo"), ("X", "combo"), ("C", "combo"), ("V", "combo"), ("B", "normal"),
     N, N,
@@ -121,8 +121,8 @@ BASE_UA = [
     ("TAB", "normal"), ("Й", "normal"), ("Ц", "normal"), ("У", "normal"), ("К", "normal"), ("Е", "normal"),
     ("Н", "normal"), ("Г", "normal"), ("Ш", "normal"), ("Щ", "normal"), ("З", "normal"), ("-", "normal"),
     # row 2: A S D F G H J K L ; → Ф І В А П Р О Л Д Ж — same HRM holds
-    ("CTL\nESC", "mod"), ("Ф\n⌘", "hrm"), ("І\n⌥", "hrm"), ("В\n⌃", "hrm"), ("А\n⇧", "hrm"), ("П", "normal"),
-    ("Р", "normal"), ("О\n⇧", "hrm"), ("Л\n⌃", "hrm"), ("Д\n⌥", "hrm"), ("Ж\n⌘", "hrm"), ("ENTER", "normal"),
+    ("CTL\nESC", "mod"), ("Ф\nSUPER", "hrm"), ("І\nALT", "hrm"), ("В\nCTRL", "hrm"), ("А\nSHIFT", "hrm"), ("П", "normal"),
+    ("Р", "normal"), ("О\nSHIFT", "hrm"), ("Л\nCTRL", "hrm"), ("Д\nALT", "hrm"), ("Ж\nSUPER", "hrm"), ("ENTER", "normal"),
     # row 3: Z X C V B → Я Ч С М И ; N M , . / → Т Ь Б Ю .
     ("LSHFT", "mod"), ("Я", "combo"), ("Ч", "combo"), ("С", "combo"), ("М", "combo"), ("И", "normal"),
     N, N,
@@ -207,14 +207,14 @@ def draw_key(d, x, y, w, h, label, kind, secondary=False):
 
     if kind == "hrm":
         # Home-row mod: tap-identity (letter) in ink, hold-identity
-        # (modifier glyph) in amber below it.
+        # (modifier word) in amber below it.
         letter, mod = label.split("\n")
-        lf = F(MONO_BOLD, 18)
-        mf = F(MONO_BOLD, 13)
+        lf = F(MONO_BOLD, 17)
+        mf = F(MONO_BOLD, 10)
         tw = d.textlength(letter, font=lf)
         d.text((x + (w - tw) / 2, y + 5), letter, font=lf, fill=INK)
         tw = d.textlength(mod, font=mf)
-        d.text((x + (w - tw) / 2, y + h - 20), mod, font=mf, fill=AMBER)
+        d.text((x + (w - tw) / 2, y + h - 17), mod, font=mf, fill=AMBER)
         return
 
     lines = label.split("\n")
@@ -523,10 +523,13 @@ def draw_footer(canvas, footer_top, openrouter_usage=None):
         d.rounded_rectangle([col5_x, sy, col5_x + sw, sy + sw], radius=3,
                             fill=bg, outline=border, width=1)
         d.text((col5_x + sw + 6, sy - 1), name, font=label_font, fill=INK_DIM)
-    # Hold-glyph entry — amber glyph instead of a colour swatch.
+    # Hold-word entry — amber sample word instead of a colour swatch.
     hy = body_y + len(swatches) * 17
-    d.text((col5_x, hy - 2), "⌘", font=F(MONO_BOLD, 12), fill=AMBER)
-    d.text((col5_x + sw + 6, hy - 1), "hold = mod", font=label_font, fill=INK_DIM)
+    sample = "ALT"
+    sample_font = F(MONO_BOLD, 9)
+    d.text((col5_x, hy), sample, font=sample_font, fill=AMBER)
+    sample_w = d.textlength(sample, font=sample_font)
+    d.text((col5_x + sample_w + 6, hy - 1), "= hold for mod", font=label_font, fill=INK_DIM)
 
 
 def draw_signature(canvas):
