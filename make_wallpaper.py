@@ -149,9 +149,9 @@ RAISE = [
     T, T, T, T, T, T, T, T, T, T, T, T,
     ("`", "muted"), ("1", "muted"), ("2", "muted"), ("3", "muted"), ("4", "muted"), ("5", "muted"),
     ("6", "muted"), ("7", "muted"), ("8", "muted"), ("9", "muted"), ("0", "muted"), T,
-    T, T, T, T, T, T,
+    T, ("DICT", "combo"), ("CHAT", "combo"), ("PASTE", "combo"), T, T,
     ("←", "normal"), ("↓", "normal"), ("↑", "normal"), ("→", "normal"), ("'", "normal"), ('"', "normal"),
-    T, T, T, T, T, T, N, N,
+    T, T, ("REC", "combo"), ("MARK", "combo"), ("STOP", "combo"), T, N, N,
     ("+", "normal"), ("-", "normal"), ("=", "normal"), ("[", "normal"), ("]", "normal"), ("\\", "normal"),
     T, T, T, N, N, T, T, T,
 ]
@@ -374,7 +374,7 @@ def draw_header(canvas):
     items = [
         ("BUILD",   "zmk-for-lily"),
         ("LAYOUT",  "lily58 · split"),
-        ("VERSION", "v02 · 2026"),
+        ("VERSION", "v03 · 2026"),
     ]
     block_top = 64
     line_h = 28
@@ -442,18 +442,16 @@ def draw_footer(canvas, footer_top, openrouter_usage=None):
         d.text((arrow_x + 50, ly + 1), "/", font=desc_font, fill=MUTED)
         d.text((arrow_x + 62, ly), ua, font=body_font, fill=INK)
 
-    # Column 2: Meeting tools — F1/F2/F3 global hotkeys are the primary controls
-    # (on the Lily58 these are LOWER+Q/W/E) for record/mark/stop; the zsh
-    # transcribe aliases (which now also auto-extract on-screen frames) and the
-    # dictation flag key round it out.
+    # Column 2: Meeting tools — record/mark/stop live on RAISE + the left-hand
+    # bottom row (X/C/V); the zsh transcribe aliases (which now also auto-extract
+    # on-screen frames from the recorded video) round it out.
     section_header("MEETING TOOLS  · KEYS + ZSH", col2_x)
     meeting = [
-        ("F1",                       "start recording"),
-        ("F2",                       "mark — grab screenshot"),
-        ("F3",                       "stop recording"),
+        ("RAISE+X",                  "start recording"),
+        ("RAISE+C",                  "mark — grab screenshot"),
+        ("RAISE+V",                  "stop recording"),
         ("meeting-transcribe-last",  "transcribe · auto-frames"),
         ("meeting-transcribe-video", "transcribe a video file"),
-        ("Super+Shift+F6",           "flag last dictation bad"),
     ]
     cmd_col_w = max(d.textlength(c, font=cmd_font) for c, _ in meeting) + 16
     for i, (cmd, desc) in enumerate(meeting):

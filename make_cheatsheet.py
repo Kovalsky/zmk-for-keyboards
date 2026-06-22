@@ -93,9 +93,9 @@ RAISE = [
     T, T, T, T, T, T, T, T, T, T, T, T,
     ("`", "normal"), ("1", "normal"), ("2", "normal"), ("3", "normal"), ("4", "normal"), ("5", "normal"),
     ("6", "normal"), ("7", "normal"), ("8", "normal"), ("9", "normal"), ("0", "normal"), T,
-    T, T, T, T, T, T,
+    T, ("DICT", "combo"), ("CHAT", "combo"), ("PASTE", "combo"), T, T,
     ("←", "normal"), ("↓", "normal"), ("↑", "normal"), ("→", "normal"), ("'", "normal"), ('"', "normal"),
-    T, T, T, T, T, T, N, N,
+    T, T, ("REC", "combo"), ("MARK", "combo"), ("STOP", "combo"), T, N, N,
     ("+", "normal"), ("-", "normal"), ("=", "normal"), ("[", "normal"), ("]", "normal"), ("\\", "normal"),
     T, T, T, N, N, T, T, T,
 ]
