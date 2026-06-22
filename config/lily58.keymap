@@ -175,14 +175,18 @@
 // ------------------------------------------------------------------------------------------------------------
 // |       |     |     |      |      |      |                   |      |       |       |      |       |       |
 // |   `   |  1  |  2  |  3   |  4   |  5   |                   |  6   |  7    |  8    |  9   |   0   |       |
-// |       |     |     |      |      |      |                   | LEFT | DOWN  |  UP   | RIGHT|   '   |   "   |
-// |       |     |     |      |      |      |  (—)  |   |  (—)  |  +   |  -    |  =    |  [   |   ]   |   \   |
+// |       |DICT |CHAT |PASTE |      |      |                   | LEFT | DOWN  |  UP   | RIGHT|   '   |   "   |
+// |       |     | REC | MARK | STOP |      |  (—)  |   |  (—)  |  +   |  -    |  =    |  [   |   ]   |   \   |
+// RAISE left hand = whisper-dictate + meeting-recorder hotkeys (evdev listeners,
+// not real F-keys to the user): home row A/S/D = dictation tech(F6)/chat(F7)/
+// paste-last(F9); bottom row X/C/V = meeting start(F2)/mark(F4)/stop(F8). Codes
+// chosen to be inert in Teams/browser (F2/F4/F8 do nothing there).
 //                            |      |      |      |  (—)  |   |  (—)  |      |       |      |
             bindings = <
 &trans    &trans &trans &trans   &trans   &trans                        &trans    &trans    &trans   &trans    &trans   &trans
 &kp GRAVE &kp N1 &kp N2 &kp N3   &kp N4   &kp N5                        &kp N6    &kp N7    &kp N8   &kp N9    &kp N0   &trans
-&trans    &trans &trans &trans   &trans   &trans                        &kp LEFT  &kp DOWN  &kp UP   &kp RIGHT &kp SQT  &kp DQT
-&trans    &trans &trans &trans   &trans   &trans    &trans    &trans    &kp PLUS  &kp MINUS &kp EQUAL &kp LBKT &kp RBKT &kp BSLH
+&trans    &kp F6 &kp F7 &kp F9   &trans   &trans                        &kp LEFT  &kp DOWN  &kp UP   &kp RIGHT &kp SQT  &kp DQT
+&trans    &trans &kp F2 &kp F4   &kp F8   &trans    &trans    &trans    &kp PLUS  &kp MINUS &kp EQUAL &kp LBKT &kp RBKT &kp BSLH
                         &trans   &trans   &trans    &none     &none     &trans    &trans    &trans
             >;
 
