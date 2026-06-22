@@ -462,7 +462,7 @@ def draw_footer(canvas, footer_top, openrouter_usage=None):
     # Column 3: MODELS · OPENROUTER — quiet metadata. Smaller fonts, dim ink.
     section_header("MODELS  · OPENROUTER", col3_x, color=MUTED)
     models = [
-        ("meeting  ", "gemini-3.1-pro-preview"),
+        ("meeting  ", "gemini-3-flash-preview"),
         ("dictation", "gemini-3-flash-preview"),
     ]
     quiet_label_font = F(MONO_BOLD, 12)
