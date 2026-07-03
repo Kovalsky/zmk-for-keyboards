@@ -102,7 +102,7 @@ RAISE = [
 
 ADJUST = [
     ("BTCLR", "mod"), ("BT1", "mod"), ("BT2", "mod"), ("BT3", "mod"), ("BT4", "mod"), ("BT5", "mod"),
-    T, T, T, T, T, T,
+    ("→UBU", "combo"), ("→MAC", "combo"), T, T, T, T,
     ("EXTPWR", "mod"), ("RGB\nHUD", "mod"), ("RGB\nHUI", "mod"), ("RGB\nSAD", "mod"), ("RGB\nSAI", "mod"), ("RGB\nEFF", "mod"),
     T, T, T, T, T, T,
     T, ("RGB\nBRD", "mod"), ("RGB\nBRI", "mod"), T, T, T,
@@ -115,7 +115,7 @@ LAYERS_DATA = [
     ("Layer 0", "BASE",   "combos: Z+X→[  C+V→'  .+/→]  N+M→_  ·  lang: LSHFT+LOWER ←  RSHFT+RAISE →  ·  amber word = hold for mod (opposite hand)", BASE),
     ("Layer 1", "LOWER",  "hold left thumb (LOWER)",                                LOWER),
     ("Layer 2", "RAISE",  "hold right thumb (RAISE)",                               RAISE),
-    ("Layer 3", "ADJUST", "hold LOWER + RAISE together",                            ADJUST),
+    ("Layer 3", "ADJUST", "hold LOWER + RAISE  ·  →UBU / →MAC = monitor + desk KVM switch", ADJUST),
 ]
 
 

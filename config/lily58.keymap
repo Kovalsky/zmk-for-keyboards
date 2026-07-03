@@ -123,6 +123,28 @@
         };
     };
 
+    // Monitor-KVM switch macros (full design in MONITOR-KVM.md). Each sends its
+    // hotkey to the CURRENTLY-connected host — which performs the DDC monitor
+    // switch (Ubuntu directly; the Mac by ssh'ing back to Ubuntu) — then, after
+    // a short pause so the HID report flushes, hands the keyboard to the other
+    // host's Bluetooth profile. BT1 = profile 0 = Ubuntu, BT2 = profile 1 = Mac.
+    macros {
+        kvm_to_mac: kvm_to_mac {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&kp F16>, <&macro_wait_time 300>, <&bt BT_SEL 1>;
+        };
+        kvm_to_laptop: kvm_to_laptop {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = <&kp F17>, <&macro_wait_time 300>, <&bt BT_SEL 0>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
@@ -195,13 +217,13 @@
 
         adjust_layer {
 // ----------------------------------------------------------------------------------------------------------------------------
-// | BTCLR  |  BT1    |  BT2    |   BT3   |   BT4   |   BT5   |                    |       |      |       |      |       |       |
+// | BTCLR  |  BT1    |  BT2    |   BT3   |   BT4   |   BT5   |                    | →UBU  | →MAC |       |      |       |       |
 // | EXTPWR | RGB_HUD | RGB_HUI | RGB_SAD | RGB_SAI | RGB_EFF |                    |       |      |       |      |       |       |
 // |        | RGB_BRD | RGB_BRI |         |         |         |                    |       |      |       |      |       |       |
 // |        |         |         |         |         |         |  (—)  |   |  (—)  |       |      |       |      |       |       |
 //                              |         |         |         |       |   |  (—)  |       |      |       |
             bindings = <
-&bt BT_CLR        &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_SEL 4                              &trans    &trans &trans &trans &trans &trans
+&bt BT_CLR        &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_SEL 4                              &kvm_to_laptop &kvm_to_mac &trans &trans &trans &trans
 &ext_power EP_TOG &rgb_ug RGB_HUD &rgb_ug RGB_HUI &rgb_ug RGB_SAD &rgb_ug RGB_SAI &rgb_ug RGB_EFF                           &trans    &trans &trans &trans &trans &trans
 &trans            &rgb_ug RGB_BRD &rgb_ug RGB_BRI &trans          &trans          &trans                                    &trans    &trans &trans &trans &trans &trans
 &trans            &trans          &trans          &trans          &trans          &trans          &none           &none     &trans    &trans &trans &trans &trans &trans
