@@ -217,13 +217,17 @@
 
         adjust_layer {
 // ----------------------------------------------------------------------------------------------------------------------------
-// | BTCLR  |  BT1    |  BT2    |   BT3   |   BT4   |   BT5   |                    | →UBU  | →MAC |       |      |       |       |
+// BT1 / BT2 now trigger the FULL desk switch (monitor + Bluetooth), not just BT:
+//   BT1 = kvm_to_laptop  (taps F17 -> current host flips monitor to Ubuntu, then hands BT to profile 0)
+//   BT2 = kvm_to_mac     (taps F16 -> current host flips monitor to Mac,    then hands BT to profile 1)
+// BT3/BT4/BT5 stay plain BT-profile switches; the old separate →UBU/→MAC keys are removed.
+// | BTCLR  |  BT1    |  BT2    |   BT3   |   BT4   |   BT5   |                    |       |      |       |      |       |       |
 // | EXTPWR | RGB_HUD | RGB_HUI | RGB_SAD | RGB_SAI | RGB_EFF |                    |       |      |       |      |       |       |
 // |        | RGB_BRD | RGB_BRI |         |         |         |                    |       |      |       |      |       |       |
 // |        |         |         |         |         |         |  (—)  |   |  (—)  |       |      |       |      |       |       |
 //                              |         |         |         |       |   |  (—)  |       |      |       |
             bindings = <
-&bt BT_CLR        &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_SEL 4                              &kvm_to_laptop &kvm_to_mac &trans &trans &trans &trans
+&bt BT_CLR        &kvm_to_laptop  &kvm_to_mac     &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_SEL 4                              &trans         &trans      &trans &trans &trans &trans
 &ext_power EP_TOG &rgb_ug RGB_HUD &rgb_ug RGB_HUI &rgb_ug RGB_SAD &rgb_ug RGB_SAI &rgb_ug RGB_EFF                           &trans    &trans &trans &trans &trans &trans
 &trans            &rgb_ug RGB_BRD &rgb_ug RGB_BRI &trans          &trans          &trans                                    &trans    &trans &trans &trans &trans &trans
 &trans            &trans          &trans          &trans          &trans          &trans          &none           &none     &trans    &trans &trans &trans &trans &trans

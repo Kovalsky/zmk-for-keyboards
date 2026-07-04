@@ -506,6 +506,23 @@ def draw_footer(canvas, footer_top, openrouter_usage=None):
             tw = d.textlength(lab, font=mini_font)
             d.text((kx + (mw - tw) / 2, ky + 4), lab, font=mini_font, fill=text_color)
 
+    # Desk-switch keys: BT1 / BT2 now do the FULL switch (monitor + keyboard),
+    # not just Bluetooth. The pictogram grid above is a quiet left-hand map, so
+    # call the switch out loud here, purple to match the cheat-sheet. (These are
+    # physical keys 1 / 2 on the ADJUST layer.)
+    kvm_top = grid_y + 3 * (mh + mg) + 8
+    kvm_cap_font = F(MONO_BOLD, 9)
+    kvm_sub_font = F(MONO, 9)
+    kw, kh, kgap = 80, 20, 8
+    for i, cap in enumerate(("BT1 → Ubuntu", "BT2 → Mac")):
+        kx = col4_x + i * (kw + kgap)
+        d.rounded_rectangle([kx, kvm_top, kx + kw, kvm_top + kh], radius=4,
+                            fill=COMBO_BG, outline=COMBO_BORDER, width=1)
+        tw = d.textlength(cap, font=kvm_cap_font)
+        d.text((kx + (kw - tw) / 2, kvm_top + 5), cap, font=kvm_cap_font, fill=INK)
+    d.text((col4_x, kvm_top + kh + 4), "hold ADJUST · switch monitor + keyboard",
+           font=kvm_sub_font, fill=MUTED)
+
     # Column 5: Legend — single skinny column on the far right.
     section_header("LEGEND", col5_x, color=MUTED)
     swatches = [
